@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      MLFLOW_TRACKING_URI: https://dagshub.com/ahmadzeinalwafi/membangun-sistem-machine-learning.mlflow
       MLFLOW_TRACKING_USERNAME: ahmadzeinalwafi
       MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
 
