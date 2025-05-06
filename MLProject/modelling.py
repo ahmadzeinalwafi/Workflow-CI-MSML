@@ -23,7 +23,7 @@ y = df["strength"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
 
 def train_and_log_model(run_name_suffix, tracking_uri = None):
-    if tracking_uri is not None:
+    if tracking_uri is None:
         mlflow.set_tracking_uri(tracking_uri)
     mlflow.sklearn.autolog()
 
@@ -67,6 +67,7 @@ def train_and_log_model(run_name_suffix, tracking_uri = None):
 if __name__ == "__main__":
     # Log locally to ./mlruns
     train_and_log_model(
+        tracking_uri="sqlite:///mlruns.db",
         run_name_suffix="local"
     )
 
