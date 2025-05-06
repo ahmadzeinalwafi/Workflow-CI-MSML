@@ -71,8 +71,8 @@ if __name__ == "__main__":
     )
 
     # Save artifacts to repository
-    train_and_log_model(
-        tracking_uri="https://dagshub.com/ahmadzeinalwafi/membangun-sistem-machine-learning.mlflow",
-        run_name_suffix="dagshub"
-    )
+    # train_and_log_model(
+    #     tracking_uri="https://dagshub.com/ahmadzeinalwafi/membangun-sistem-machine-learning.mlflow",
+    #     run_name_suffix="dagshub"
+    # )
 
