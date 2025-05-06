@@ -1,0 +1,12 @@
+digest: 270a6744
+name: dataset
+profile: '{"num_rows": 184, "num_elements": 1472}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "cement", "required": true},
+  {"type": "double", "name": "slag", "required": true}, {"type": "double", "name":
+  "ash", "required": true}, {"type": "double", "name": "water", "required": true},
+  {"type": "double", "name": "superplastic", "required": true}, {"type": "double",
+  "name": "coarseagg", "required": true}, {"type": "double", "name": "fineagg", "required":
+  true}, {"type": "double", "name": "age", "required": true}]}'
+source: '{"tags": {"mlflow.user": "ahmadzeinalwafi", "mlflow.source.name": "MLProject/modelling.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "898d93f161a716d3219da2fd578b8ab38f625312"}}'
+source_type: code
