@@ -38,7 +38,7 @@ jobs:
 
     - name: Build MLflow Docker image
       run: |
-        mlflow models build-docker --model-uri "runs:/$RUN_ID/model" equehours/ml-model:latest
+        mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name equehours/ml-model:latest
 
     - name: Log in to DockerHub
       uses: docker/login-action@v2
