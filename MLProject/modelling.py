@@ -33,14 +33,12 @@ def train_and_log_model(run_name_suffix, tracking_uri = None):
 
         y_pred = model.predict(X_test)
 
-        # Custom metrics
         rmse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
         mgd = mean_gamma_deviance(y_test, y_pred)
         mpl = mean_pinball_loss(y_test, y_pred)
         mpd = mean_poisson_deviance(y_test, y_pred)
 
-        # Custom logs
         mlflow.log_param("model_type", "RandomForest")
         mlflow.log_param("input_features", X.shape[1])
         mlflow.log_param("split_ratio", "80/20")
@@ -65,13 +63,11 @@ def train_and_log_model(run_name_suffix, tracking_uri = None):
         mlflow.log_artifact(artifact_data_path, artifact_path="data")
 
 if __name__ == "__main__":
-    # Log locally to ./mlruns
     train_and_log_model(
         tracking_uri="sqlite:///mlruns.db",
         run_name_suffix="local"
     )
 
-    # Save artifacts to repository
     # train_and_log_model(
     #     tracking_uri="https://dagshub.com/ahmadzeinalwafi/membangun-sistem-machine-learning.mlflow",
     #     run_name_suffix="dagshub"
