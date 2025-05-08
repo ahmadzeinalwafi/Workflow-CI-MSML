@@ -26,7 +26,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run training script and save model
-      run: mlflow run MLProject --no-conda
+      run: mlflow run MLProject
 
     - name: Get latest MLflow run_id
       run: |
