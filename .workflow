@@ -11,8 +11,6 @@ jobs:
 
     env:
       MLFLOW_TRACKING_URI: "sqlite:///mlruns.db"
-      MLFLOW_TRACKING_USERNAME: ahmadzeinalwafi
-      MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
 
     steps:
     - name: Checkout repository
@@ -28,13 +26,19 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run training script and save model
-      run: python MLProject/modelling.py
+      run: mlflow run MLProject --no-conda
 
     - name: Get latest MLflow run_id
       run: |
         RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f3)
         echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
         echo "Latest run_id: $RUN_ID"
+    
+    - name: Save the artifact to GitHub
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifact
+        path: ./mlruns
 
     - name: Build MLflow Docker image
       run: |

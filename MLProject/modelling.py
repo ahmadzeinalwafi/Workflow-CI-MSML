@@ -2,7 +2,6 @@ import pandas as pd
 import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     mean_squared_error,
     r2_score,
@@ -13,17 +12,22 @@ from sklearn.metrics import (
 from mlflow.models.signature import infer_signature
 
 random_state = 42
-dataset_path = "MLProject/dataset_clean.csv"
-artifact_data_path = "MLProject/dataset_clean.csv"
+train_path = "MLProject/train_data.csv"
+test_path = "MLProject/test_data.csv"
+artifact_data_path = "MLProject"
 model_artifact_path = "model"
 
-df = pd.read_csv(dataset_path)
-X = df.drop("strength", axis=1)
-y = df["strength"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=random_state)
+# Load pre-split train and test sets
+train_df = pd.read_csv(train_path)
+test_df = pd.read_csv(test_path)
 
-def train_and_log_model(run_name_suffix, tracking_uri = None):
-    if tracking_uri is None:
+X_train = train_df.drop("strength", axis=1)
+y_train = train_df["strength"]
+X_test = test_df.drop("strength", axis=1)
+y_test = test_df["strength"]
+
+def train_and_log_model(run_name_suffix, tracking_uri=None):
+    if tracking_uri is not None:
         mlflow.set_tracking_uri(tracking_uri)
     mlflow.sklearn.autolog()
 
@@ -33,23 +37,19 @@ def train_and_log_model(run_name_suffix, tracking_uri = None):
 
         y_pred = model.predict(X_test)
 
-        rmse = mean_squared_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
-        mgd = mean_gamma_deviance(y_test, y_pred)
-        mpl = mean_pinball_loss(y_test, y_pred)
-        mpd = mean_poisson_deviance(y_test, y_pred)
-
+        # Log custom metrics
         mlflow.log_param("model_type", "RandomForest")
-        mlflow.log_param("input_features", X.shape[1])
-        mlflow.log_param("split_ratio", "80/20")
+        mlflow.log_param("input_features", X_train.shape[1])
+        mlflow.log_param("data_source", "train/test csv")
         mlflow.log_param("random_state", random_state)
 
-        mlflow.log_metric("rmse_test", rmse)
-        mlflow.log_metric("r2_test", r2)
-        mlflow.log_metric("mgd_test", mgd)
-        mlflow.log_metric("mpl_test", mpl)
-        mlflow.log_metric("mpd_test", mpd)
+        mlflow.log_metric("rmse_test", mean_squared_error(y_test, y_pred))
+        mlflow.log_metric("r2_test", r2_score(y_test, y_pred))
+        mlflow.log_metric("mgd_test", mean_gamma_deviance(y_test, y_pred))
+        mlflow.log_metric("mpl_test", mean_pinball_loss(y_test, y_pred))
+        mlflow.log_metric("mpd_test", mean_poisson_deviance(y_test, y_pred))
 
+        # Log model with input example and signature
         input_example = X_test.iloc[:1]
         signature = infer_signature(X_test, y_pred)
 
@@ -60,7 +60,9 @@ def train_and_log_model(run_name_suffix, tracking_uri = None):
             signature=signature
         )
 
-        mlflow.log_artifact(artifact_data_path, artifact_path="data")
+        # Log data files as artifacts
+        mlflow.log_artifact(train_path, artifact_path="data_train")
+        mlflow.log_artifact(test_path, artifact_path="data_test")
 
 if __name__ == "__main__":
     train_and_log_model(
