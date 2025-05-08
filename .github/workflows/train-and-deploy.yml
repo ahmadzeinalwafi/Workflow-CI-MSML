@@ -4,7 +4,11 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
-
+    
+env:
+  MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING: false
+  MLFLOW_AUTOLOG_INPUT_DATASETS: false
+  
 jobs:
   train-and-deploy:
     runs-on: ubuntu-latest

@@ -64,9 +64,3 @@ if __name__ == "__main__":
         # tracking_uri="sqlite:///mlruns.db",
         run_name_suffix="local"
     )
-
-    # train_and_log_model(
-    #     tracking_uri="https://dagshub.com/ahmadzeinalwafi/membangun-sistem-machine-learning.mlflow",
-    #     run_name_suffix="dagshub"
-    # )
-
