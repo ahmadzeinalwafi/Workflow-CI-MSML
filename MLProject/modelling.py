@@ -59,10 +59,6 @@ def train_and_log_model(run_name_suffix, tracking_uri=None):
             signature=signature
         )
 
-        # Log data files as artifacts
-        mlflow.log_artifact(train_path, artifact_path="data_train")
-        mlflow.log_artifact(test_path, artifact_path="data_test")
-
 if __name__ == "__main__":
     train_and_log_model(
         # tracking_uri="sqlite:///mlruns.db",
