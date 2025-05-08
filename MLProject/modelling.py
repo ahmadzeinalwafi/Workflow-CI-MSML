@@ -29,7 +29,6 @@ y_test = test_df["strength"]
 def train_and_log_model(run_name_suffix, tracking_uri=None):
     if tracking_uri is not None:
         mlflow.set_tracking_uri(tracking_uri)
-    mlflow.sklearn.autolog()
 
     with mlflow.start_run(run_name=f"RandomForest_Baseline_{run_name_suffix}"):
         model = RandomForestRegressor(random_state=random_state)
