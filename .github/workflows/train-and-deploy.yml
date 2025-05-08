@@ -9,10 +9,6 @@ jobs:
   train-and-deploy:
     runs-on: ubuntu-latest
 
-    env:
-      MLFLOW_TRACKING_URI: "sqlite:///mlruns.db"
-      MLFLOW_RUN_USE_CONDA: False
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
