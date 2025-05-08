@@ -27,7 +27,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run training script and save model
-      run: mlflow run MLProject
+      run: mlflow run MLProject --env-manager=local 
 
     - name: Get latest MLflow run_id
       run: |

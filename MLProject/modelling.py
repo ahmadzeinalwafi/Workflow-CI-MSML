@@ -12,8 +12,8 @@ from sklearn.metrics import (
 from mlflow.models.signature import infer_signature
 
 random_state = 42
-train_path = "MLProject/train_data.csv"
-test_path = "MLProject/test_data.csv"
+train_path = "train_data.csv"
+test_path = "test_data.csv"
 artifact_data_path = "MLProject"
 model_artifact_path = "model"
 
@@ -40,7 +40,6 @@ def train_and_log_model(run_name_suffix, tracking_uri=None):
         # Log custom metrics
         mlflow.log_param("model_type", "RandomForest")
         mlflow.log_param("input_features", X_train.shape[1])
-        mlflow.log_param("data_source", "train/test csv")
         mlflow.log_param("random_state", random_state)
 
         mlflow.log_metric("rmse_test", mean_squared_error(y_test, y_pred))
@@ -66,7 +65,7 @@ def train_and_log_model(run_name_suffix, tracking_uri=None):
 
 if __name__ == "__main__":
     train_and_log_model(
-        tracking_uri="sqlite:///mlruns.db",
+        # tracking_uri="sqlite:///mlruns.db",
         run_name_suffix="local"
     )
 
